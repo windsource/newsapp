@@ -7,15 +7,42 @@ Go application that reads RSS feeds defined in `data/data.json` and provides all
 1. Go must have been installed
 2. Get the source with `go get github.com/windsource/newsapp`
 
-## Build and run
+## Build
 
-Goto to the source code folder and execute
+Switch to the folder in which this file resides and call
 
 ```bash
-go run main.go
+go build
+```
+
+## Run
+
+```bash
+./newsapp
 ```
 
 Point your browser to http://localhost:8080.
+
+## Docker
+
+To create a Docker image:
+
+```bash
+make build
+```
+
+To push the image to Docker Hub:
+
+```bash
+make push
+```
+
+To run the image
+
+```bash
+docker run -p 8080:8080 windsource/newsapp
+```
+
 
 
 

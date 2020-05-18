@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Heise News",
+        "link" : "https://www.heise.de/rss/heise.rdf",
+        "type": "RSS"
+    },
+    {
+        "name": "Tagesschau",
+        "link" : "http://www.tagesschau.de/newsticker.rdf",
+        "type": "RSS"
+    },
+    {
+        "name": "Der Postillon",
+        "link" : "http://feeds.feedburner.com/blogspot/rkEL",
+        "type": "RSS"
+    }
+]

@@ -31,16 +31,23 @@
   <div class="container-fluid">
     <div class="row">
       {{range .}}
-        {{with .Channel}}
-          <div class="col-sm ml-1 mt-3 text-truncate">
-            <h3 class="text-truncate">{{.Title}}</h3>
-            {{range .Item}}
-              <a target="_blank" class="small" href="{{.Link}}">{{.Title}}</a>
-              -
-              <small class="text-muted">{{.Description}}</small>
-              <br>
-            {{end}}
-          </div>
+        {{if .Doc}}
+          {{with .Doc.Channel}}
+            <div class="col-sm ml-1 mt-3 text-truncate">
+              <h3 class="text-truncate">{{.Title}}</h3>
+              {{range .Item}}
+                <a target="_blank" class="small" href="{{.Link}}">{{.Title}}</a>
+                -
+                <small class="text-muted">{{.Description}}</small>
+                <br>
+              {{end}}
+            </div>
+          {{end}}
+        {{else}}
+        <div class="col-sm ml-1 mt-3 text-truncate">
+          <h3 class="text-truncate">{{.TheFeed.Name}}</h3>
+          {{.Err}}
+        </div>
         {{end}}
       {{end}}
     </div>

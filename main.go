@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/windsource/newsapp/feed"
 )
@@ -14,9 +15,11 @@ const feedDefinitionFile = "data/data.json"
 var templ *template.Template
 var feeds []*feed.Feed
 
-type Page struct {
-	Title string
-	Body  []byte
+type RetrievedFeed struct {
+	Doc     *feed.RSSDocument
+	Index   int
+	TheFeed *feed.Feed
+	Err     error
 }
 
 func init() {
@@ -25,16 +28,32 @@ func init() {
 
 func newsServer(w http.ResponseWriter, r *http.Request) {
 	log.Println(r)
-	docs := make([]*feed.RSSDocument, 0, 10)
 
-	for _, singleFeed := range feeds {
-		doc, _ := feed.Retrieve(singleFeed)
-		if doc != nil {
-			docs = append(docs, doc)
-		}
+	retrievedFeeds := make([]*RetrievedFeed, len(feeds))
+
+	results := make(chan *RetrievedFeed)
+
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(len(feeds))
+
+	for i, singleFeed := range feeds {
+		go func(singleFeed *feed.Feed, index int) {
+			defer waitGroup.Done()
+			doc, err := feed.Retrieve(singleFeed)
+			results <- &RetrievedFeed{doc, index, singleFeed, err}
+		}(singleFeed, i)
 	}
 
-	templ.Execute(w, docs)
+	go func() {
+		waitGroup.Wait()
+		close(results)
+	}()
+
+	for result := range results {
+		retrievedFeeds[result.Index] = result
+	}
+
+	templ.Execute(w, retrievedFeeds)
 }
 
 func main() {

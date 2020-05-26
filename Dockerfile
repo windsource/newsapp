@@ -1,7 +1,7 @@
 FROM golang:1.14
 WORKDIR /go/src/github.com/windsource/newsapp/
-RUN go get -d -v ./...  
 COPY . .
+RUN go get -d -v ./...  
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM alpine:latest  

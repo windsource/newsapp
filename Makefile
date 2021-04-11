@@ -1,7 +1,7 @@
 .PHONY: build push
 
 IMAGE = windsource/newsapp
-VERSION = 1.1.0
+VERSION = 1.2.0
 
 build:
 	docker build -t $(IMAGE):$(VERSION) -t $(IMAGE):latest .

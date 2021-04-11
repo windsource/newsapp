@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -53,7 +54,11 @@ func newsServer(w http.ResponseWriter, r *http.Request) {
 		retrievedFeeds[result.Index] = result
 	}
 
-	templ.Execute(w, retrievedFeeds)
+	_ = templ.Execute(w, retrievedFeeds)
+}
+
+func health(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, `{"message":"OK"}`)
 }
 
 func main() {
@@ -71,5 +76,6 @@ func main() {
 	}
 
 	http.HandleFunc("/", newsServer)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/health", health)
+	_ = http.ListenAndServe(":8080", nil)
 }

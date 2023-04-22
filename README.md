@@ -27,13 +27,7 @@ Point your browser to http://localhost:8080.
 To create a Docker image:
 
 ```bash
-make build
-```
-
-To push the image to Docker Hub:
-
-```bash
-make push
+docker build -t windsource/newsapp .
 ```
 
 To run the image

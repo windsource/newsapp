@@ -6,7 +6,7 @@
     },
     {
         "name": "Tagesschau",
-        "link" : "http://www.tagesschau.de/newsticker.rdf",
+        "link" : "https://www.tagesschau.de/index~rss2.xml",
         "type": "RSS"
     },
     {
